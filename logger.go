@@ -19,12 +19,27 @@ const (
 	VERBOSE
 )
 
+func (lv LogLevel) String() (str string) {
+	levels := []string{
+		"CRIT",
+		"WARN",
+		"INFO",
+		"DEBUG",
+		"VERBOSE",
+	}
+
+	if str = levels[VERBOSE]; lv >= CRIT && lv <= VERBOSE {
+		str = levels[lv]
+	}
+	return
+}
+
 const (
 	ENV_LOG_LEVEL = "LOG_LEVEL"
 	PROJ_NAME     = "Logger"
 
 	MAJOR = 1
-	MINOR = 1
+	MINOR = 2
 	MACRO = 0
 )
 
@@ -90,7 +105,9 @@ func (logger *Logger) log(calldepth int, lv LogLevel, msg string, args ...interf
 	defer logger.Unlock()
 
 	if lv <= logger.LogLevel {
-		logger.Logger.Output(calldepth, fmt.Sprintf(msg, args...))
+		msg := fmt.Sprintf(msg, args...)
+		msg = fmt.Sprintf("[%v] %v", lv, msg)
+		logger.Logger.Output(calldepth, msg)
 	}
 }
 

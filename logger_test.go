@@ -14,9 +14,9 @@ func ExampleCustomLog() {
 	log.Log(DEBUG, "show the DEBUG log")
 	log.Log(VERBOSE, "show the VERBOSE log")
 	// Output:
-	// [example] logger_test.go:11: show the CRIT log
-	// [example] logger_test.go:12: show the WARN log
-	// [example] logger_test.go:13: show the INFO log
+	// [example] logger_test.go:11: [CRIT] show the CRIT log
+	// [example] logger_test.go:12: [WARN] show the WARN log
+	// [example] logger_test.go:13: [INFO] show the INFO log
 }
 
 func Foo() {
@@ -33,7 +33,7 @@ func Foo() {
 func ExampleFoo() {
 	Foo()
 	// Output:
-	// [foo] logger_test.go:26: show the CRIT log
-	// [foo] logger_test.go:27: show the WARN log
-	// [foo] logger_test.go:28: show the INFO log
+	// [foo] logger_test.go:26: [CRIT] show the CRIT log
+	// [foo] logger_test.go:27: [WARN] show the WARN log
+	// [foo] logger_test.go:28: [INFO] show the INFO log
 }

@@ -12,7 +12,7 @@ func ExampleDefaultLog() {
 	Log(DEBUG, "show the DEBUG log")
 	Log(VERBOSE, "show the VERBOSE log")
 	// Output:
-	// [Logger] default_test.go:9: show the CRIT log
+	// [Logger] default_test.go:9: [CRIT] show the CRIT log
 }
 
 func ExampleDefaultLogLevel() {
@@ -24,8 +24,8 @@ func ExampleDefaultLogLevel() {
 	Log(DEBUG, "show the DEBUG log")
 	Log(VERBOSE, "show the VERBOSE log")
 	// Output:
-	// [Logger] default_test.go:21: show the CRIT log
-	// [Logger] default_test.go:22: show the WARN log
-	// [Logger] default_test.go:23: show the INFO log
-	// [Logger] default_test.go:24: show the DEBUG log
+	// [Logger] default_test.go:21: [CRIT] show the CRIT log
+	// [Logger] default_test.go:22: [WARN] show the WARN log
+	// [Logger] default_test.go:23: [INFO] show the INFO log
+	// [Logger] default_test.go:24: [DEBUG] show the DEBUG log
 }
