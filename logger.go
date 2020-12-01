@@ -24,7 +24,7 @@ const (
 	PROJ_NAME     = "Logger"
 
 	MAJOR = 1
-	MINOR = 0
+	MINOR = 1
 	MACRO = 0
 )
 
@@ -62,13 +62,12 @@ func New(name string) (logger *Logger) {
 	return
 }
 
-func (logger *Logger) Log(lv LogLevel, msg string, args ...interface{}) {
+func (logger *Logger) SetCallpath(calldepth int) {
 	logger.Lock()
 	defer logger.Unlock()
 
-	if lv <= logger.LogLevel {
-		logger.Logger.Output(logger.calldepth, fmt.Sprintf(msg, args...))
-	}
+	logger.calldepth = calldepth
+	return
 }
 
 func (logger *Logger) SetLevel(lv string) {
@@ -86,13 +85,41 @@ func (logger *Logger) SetLevel(lv string) {
 	}
 }
 
-func init() {
-	lv := strings.ToUpper(os.Getenv(ENV_LOG_LEVEL))
-	default_log.SetLevel(lv)
+func (logger *Logger) log(calldepth int, lv LogLevel, msg string, args ...interface{}) {
+	logger.Lock()
+	defer logger.Unlock()
+
+	if lv <= logger.LogLevel {
+		logger.Logger.Output(calldepth, fmt.Sprintf(msg, args...))
+	}
 }
 
-func Log(lv LogLevel, msg string, args ...interface{}) {
-	default_log.calldepth = 3
-	default_log.Log(lv, msg, args...)
+func (logger *Logger) Log(lv LogLevel, msg string, args ...interface{}) {
+	logger.log(logger.calldepth+1, lv, msg, args...)
+	return
+}
+
+func (logger *Logger) Crit(msg string, args ...interface{}) {
+	logger.log(logger.calldepth+1, CRIT, msg, args...)
+	return
+}
+
+func (logger *Logger) Warn(msg string, args ...interface{}) {
+	logger.log(logger.calldepth+1, WARN, msg, args...)
+	return
+}
+
+func (logger *Logger) Info(msg string, args ...interface{}) {
+	logger.log(logger.calldepth+1, INFO, msg, args...)
+	return
+}
+
+func (logger *Logger) Debug(msg string, args ...interface{}) {
+	logger.log(logger.calldepth+1, DEBUG, msg, args...)
+	return
+}
+
+func (logger *Logger) Verbose(msg string, args ...interface{}) {
+	logger.log(logger.calldepth+1, VERBOSE, msg, args...)
 	return
 }
