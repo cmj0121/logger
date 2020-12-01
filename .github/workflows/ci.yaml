@@ -1,0 +1,14 @@
+name: run the Go test
+
+on:
+  - push
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1	
+      - run: go test -v -cover -failfast -timeout 2s
+      - run: go test -bench=. -cover -failfast -benchmem
+
