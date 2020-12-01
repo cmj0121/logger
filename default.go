@@ -1,13 +1,7 @@
 package logger
 
-import (
-	"os"
-	"strings"
-)
-
 func init() {
-	lv := strings.ToUpper(os.Getenv(ENV_LOG_LEVEL))
-	default_log.SetLevel(lv)
+	// set the callpath=3 for default logger
 	default_log.SetCallpath(3)
 }
 

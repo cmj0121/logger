@@ -8,6 +8,16 @@ import (
 	"sync"
 )
 
+// the program info
+const (
+	ENV_LOG_LEVEL = "LOG_LEVEL"
+	PROJ_NAME     = "Logger"
+
+	MAJOR = 1
+	MINOR = 2
+	MACRO = 1
+)
+
 // the log level
 type LogLevel int
 
@@ -33,15 +43,6 @@ func (lv LogLevel) String() (str string) {
 	}
 	return
 }
-
-const (
-	ENV_LOG_LEVEL = "LOG_LEVEL"
-	PROJ_NAME     = "Logger"
-
-	MAJOR = 1
-	MINOR = 2
-	MACRO = 0
-)
 
 var (
 	logger_lock = sync.Mutex{}
@@ -74,6 +75,16 @@ func New(name string) (logger *Logger) {
 	}
 
 	logger_pool[name] = logger
+
+	// change the log level from ENV
+	env := strings.ToUpper(fmt.Sprintf("%v_%v", name, ENV_LOG_LEVEL))
+	lv := strings.ToUpper(os.Getenv(env))
+	logger.SetLevel(lv)
+	return
+}
+
+func GetLogger(name string) (logger *Logger) {
+	logger, _ = logger_pool[name]
 	return
 }
 
