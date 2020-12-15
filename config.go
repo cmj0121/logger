@@ -7,7 +7,7 @@ const (
 
 	MAJOR = 1
 	MINOR = 2
-	MACRO = 1
+	MACRO = 2
 )
 
 const (
