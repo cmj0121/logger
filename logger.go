@@ -8,26 +8,8 @@ import (
 	"sync"
 )
 
-// the program info
-const (
-	ENV_LOG_LEVEL = "LOG_LEVEL"
-	PROJ_NAME     = "Logger"
-
-	MAJOR = 1
-	MINOR = 2
-	MACRO = 1
-)
-
 // the log level
 type LogLevel int
-
-const (
-	CRIT LogLevel = iota
-	WARN
-	INFO
-	DEBUG
-	VERBOSE
-)
 
 func (lv LogLevel) String() (str string) {
 	levels := []string{
@@ -97,15 +79,7 @@ func (logger *Logger) SetCallpath(calldepth int) {
 }
 
 func (logger *Logger) SetLevel(lv string) {
-	logs := map[string]LogLevel{
-		"CRIT":    CRIT,
-		"WARN":    WARN,
-		"INFO":    INFO,
-		"DEBUG":   DEBUG,
-		"VERBOSE": VERBOSE,
-	}
-
-	if level, ok := logs[strings.ToUpper(lv)]; ok {
+	if level, ok := log_level[strings.ToUpper(lv)]; ok {
 		// override the log level by ENV
 		logger.LogLevel = level
 	}

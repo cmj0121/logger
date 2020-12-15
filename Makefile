@@ -2,7 +2,7 @@
 
 BIN := $(subst .go,,$(wildcard examples/*.go))
 
-all: linter	# build all binary
+all: $(BIN) linter	# build all binary
 
 clean:		# clean-up the environment
 	rm -f $(BIN)
